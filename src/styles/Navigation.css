@@ -1,0 +1,46 @@
+nav {
+    width: 100%;
+    border-width: 0;
+    /*position: fixed;*/
+    /*top: 0;*/
+    z-index: 10;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+}
+
+.headerButton {
+    text-underline: none;
+    padding: 10px;
+    border-width: 2px;
+    border-color: whitesmoke;
+    border-radius: 30px;
+    cursor: pointer;
+    background: #f8b28e; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f8b28e 0%, #f1737f 32%, #6c5c80 67%, #325c80 99%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #f8b28e 0%,#f1737f 32%,#6c5c80 67%,#325c80 99%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #f8b28e 0%,#f1737f 32%,#6c5c80 67%,#325c80 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    transition: background-color 0.5s ease-out;
+    color: white;
+}
+
+.headerButton:hover {
+    background-color: #6c5c80;
+}
+
+@media (max-width: 920px) {
+    nav {
+        justify-content: space-between;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+    .headerButton {
+        font-size: 80%;
+    }
+}

@@ -1,0 +1,92 @@
+/*Page that holds the modal for signing in/up and making a new post */
+.modalContainer {
+    width: 100%;
+    height: 35vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*The modal for signing in/up and making a new post*/
+.modal {
+    min-width: 25%;
+    min-height: 20%;
+    background-color: #fdfdfd;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    /*box-shadow: 0 5px 20px #404040;*/
+    flex-wrap: wrap;
+}
+
+textarea {
+    border-radius: 15px;
+    resize: none;
+    border-style: solid;
+    border-color: lightgrey;
+    padding: 10px;
+    flex-basis: 80px;
+    flex-shrink: 2;
+}
+
+.formInput {
+    border-radius: 15px;
+    margin: 5px;
+    padding: 5px;
+    border-style: solid;
+}
+
+.submitButton {
+    background: #f8b28e; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f8b28e 0%, #f1737f 32%, #6c5c80 67%, #325c80 99%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #f8b28e 0%,#f1737f 32%,#6c5c80 67%,#325c80 99%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #f8b28e 0%,#f1737f 32%,#6c5c80 67%,#325c80 99%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    padding: 10px 20px;
+    color: white;
+    border-radius: 25px;
+    margin: 15px;
+}
+
+.submitButton:disabled {
+    background: darkgray;
+}
+
+.characterLimit {
+
+}
+
+.goBack {
+    font-size: 150%;
+    color: whitesmoke;
+    transition: font-size 0.5s;
+    margin: 10px;
+    border-bottom: solid 1px white;
+    padding: 2px;
+}
+
+.goBack:hover {
+    font-size: 155%;
+}
+
+.modalTitle {
+    text-transform: lowercase;
+}
+
+.spinner {
+
+}
+
+.fadeIn {
+
+}
+
+.deleteButton {
+
+}
+
+.imageContainer {
+
+}
