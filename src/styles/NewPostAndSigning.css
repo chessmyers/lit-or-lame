@@ -6,6 +6,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex-wrap: nowrap;
 }
 
 /*The modal for signing in/up and making a new post*/
@@ -48,10 +49,17 @@ textarea {
     color: white;
     border-radius: 25px;
     margin: 15px;
+    border-style: solid;
 }
+
+
 
 .submitButton:disabled {
     background: darkgray;
+}
+
+.submitButton:active {
+    opacity: 0.5;
 }
 
 .characterLimit {
@@ -75,6 +83,11 @@ textarea {
     text-transform: lowercase;
 }
 
+.errorMessage {
+    width: 60%;
+    text-align: center;
+}
+
 .spinner {
 
 }
@@ -84,9 +97,30 @@ textarea {
 }
 
 .deleteButton {
+    text-align: center;
+    font-size: 150%;
+    color: #ea727f;
+}
 
+.deleteButton:hover {
+    color: #f42323;
+    cursor: pointer;
 }
 
 .imageContainer {
 
+}
+
+.signOutButton {
+    background-color: #cc6d7f;
+    margin: 5px;
+    padding: 7px;
+    border-radius: 20px;
+    color: whitesmoke;
+    border-style: solid;
+    border-color: #715d80;
+}
+
+.signOutButton:active {
+    opacity: 0.5;
 }

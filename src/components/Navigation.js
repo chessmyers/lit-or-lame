@@ -7,28 +7,28 @@ import * as ROUTES from '../constants/routes';
 const Navigation = (props) => (
     <nav className="navBar">
         <Link to={ROUTES.LANDING}>
-            <button className="headerButton" onClick={() => props.changeCat("dumbordumber")}>
-                Dumb Or Dumber
+            <button className="headerButton" onClick={() => props.changeCat("tastyorterrible")}>
+                TastyorTerrible
             </button>
         </Link>
         <Link to={ROUTES.LANDING}>
             <button className="headerButton" onClick={() => props.changeCat("flyorfail")}>
-                Fly or Fail
+                FlyorFail
             </button>
         </Link>
         <Link to={ROUTES.LANDING}>
             <button className="headerButton" onClick={() => props.changeCat("litorlame")}>
-                Lit or Lame
+                LitorLame
             </button>
         </Link>
         <Link to={ROUTES.LANDING}>
             <button className="headerButton" onClick={() => props.changeCat("funnyorflat")}>
-                Funny or Flat
+                FunnyorFlat
             </button>
         </Link>
         <Link to={ROUTES.LANDING}>
             <button className="headerButton" onClick={() => props.changeCat("weirdorwonderful")}>
-                Weird or Wonderful
+                WeirdorWonderful
             </button>
         </Link>
     </nav>

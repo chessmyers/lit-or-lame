@@ -118,13 +118,20 @@ class Post extends Component {
         return (
             <div className="postContent">
                 <div className="Post">
+                    {this.props.image && this.props.image !== "" && (
+                        <div className="postImageContainer">
+                            <img src={this.props.image}  alt={this.props.image} className="postImage"/>
+                        </div>
+                    )}
                     <div className="postText">{this.props.text}</div>
                     {
                         this.state.showVotesBar ?
                             <div className="postButtonsBox">
                                 <div className="votingBar">
                                     <span className="colBar greenBar"
-                                          style={{width: this.state.yesPercent.toString(10) + '%'}}>{this.state.yes}</span>
+                                          style={{width: this.state.yesPercent.toString(10) + '%'}}>
+                                        <div style={{paddingBottom: '5px'}}>{this.state.yes}</div>
+                                        </span>
                                     <span className="colBar redBar"
                                           style={{width: this.state.noPercent.toString(10) + '%'}}>{this.state.no}</span>
                                 </div>
@@ -132,15 +139,15 @@ class Post extends Component {
                             :
                             <div className="postButtonsBox">
                                 <input type="image" src="yee.png" alt="Lit" width="10%" height="10%"
-                                       onClick={() => this.clickPost(true)}/>
+                                       className="clickOpacity" onClick={() => this.clickPost(true)}/>
                                 <span
                                     style={{flexBasis: '100px', textAlign: 'center', color: 'darkgray'}}>   or   </span>
                                 <input type="image" src="nah.png" alt="Lame" width="10%" height="10%"
-                                       onClick={() => this.clickPost(false)}/>
+                                       className="clickOpacity" onClick={() => this.clickPost(false)}/>
                             </div>
                     }
-
-                    <div className="time">posted {Post.ago(this.props.time)} ago</div>
+                    <PosterUsername firebase={this.props.firebase} poster={this.props.poster} classN="postPoster"/>
+                    <div className="time">{Post.ago(this.props.time)} ago</div>
 
                 </div>
                 <div className="commentsBox">
@@ -221,6 +228,7 @@ class CommentsBox extends Component {
                     {this.props.comments.map((comment) => (
                         <div className="comment" key={comment.id}>
                             <span>{comment.text}</span>
+                            <PosterUsername firebase={this.props.firebase} poster={comment.poster} classN="commentPoster"/>
                             <div className="commentTime">{Post.ago(comment.time)} ago</div>
                         </div>
                     ))}
@@ -243,6 +251,38 @@ class CommentsBox extends Component {
             </div>
         )
     }
+}
+
+class PosterUsername extends Component {
+    static defaultProps = {
+        poster: '',
+        firebase: null,
+        classN: ''
+    };
+    state = {
+        username: ''
+    };
+
+    componentDidMount() {
+        this.props.firebase.getCommentPoster(this.props.poster)
+            .then((user) => {
+                let u = user.data().username;
+                this.setState({
+                    username: u
+                })
+            }).catch(err => console.log(err))
+    }
+
+
+    render() {
+        const { username } = this.state;
+        return (
+            <div className={this.props.classN}>
+                Posted by {username}
+            </div>
+        );
+    }
+
 }
 
 export default withRouter(withFirebase(Post));

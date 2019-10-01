@@ -2,6 +2,7 @@ import {Link, withRouter} from 'react-router-dom';
 import React, {Component} from 'react';
 import {compose} from 'recompose';
 
+import  withAuthorization  from './Session/withAuthorization';
 import {withFirebase} from "./Firebase";
 import * as ROUTES from '../constants/routes';
 import '../styles/NewPostAndSigning.css';
@@ -18,6 +19,9 @@ const INITIAL_STATE = {
     text: '',
     uploading: false,
     image: null,
+    fileTooLarge: null,
+    filePath: null,
+    submitted: false
 };
 
 class NewPostFormBase extends Component {
@@ -26,7 +30,7 @@ class NewPostFormBase extends Component {
         category: '',
         onSub() {
         }
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -41,51 +45,81 @@ class NewPostFormBase extends Component {
     onAddImage(event) {
         event.preventDefault();
         let file = event.target.files[0];
-        if (file.size > 150000) {
-            console.log(`${file.name} is too large, please pick a smaller file`);
+        if (file.size > 500000) {
+            this.setState({
+                fileTooLarge: `${file.name} is too large, please pick a smaller file`
+            });
+            event.target.value = null;
         } else {
             this.setState({
-                uploading: true
+                uploading: true,
+                fileTooLarge: null,
+                filePath: file
             });
+            let reader = new FileReader();
 
-            this.props.firebase.uploadPostImg(file)
-                .then((res) => {
-                    console.log(res);
-                    this.setState({
-                            uploading: false,
-                            image: file
-                        }
-                    )
+            reader.onload = (e) => {
+                this.setState({
+                    uploading: false,
+                    image: e.target.result
                 })
-                .catch((err) => {
-                    console.log(err);
-                })
+            };
+            reader.readAsDataURL(file);
+
+            // this.props.firebase.uploadPostImg(file)
+            //     .then((snapshot) => {
+            //         console.log(snapshot);
+            //         this.setState({
+            //                 uploading: false,
+            //                 image: file
+            //             }
+            //         )
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //     })
         }
 
     }
 
     removeImage() {
         this.setState({
-            image: null
+            image: null,
+            filePath: null
         })
     }
 
     onSubmit = (event) => {
         event.preventDefault();
-        const {text} = this.state;
+        this.setState({
+            submitted: true
+        })
+        const { text, filePath } = this.state;
+        if (filePath) {
+            this.props.firebase.uploadPostImg(filePath)
+                .then(snapshot => {
+                    this.props.firebase.getUploadURL(filePath)
+                        .then(url => {
+                            console.log(url);
+                            this.makeNewPost(text, url);
+                        })
+                        .catch(err => console.log(err))
+                })
+                .catch(err => console.log(err))
+        } else {
+            this.makeNewPost(text, "");
+        }
+    };
 
-        this.props.firebase
-            .newPost(this.props.category, text)
-            .then((doc) => {
+    makeNewPost(text, imgUrl) {
+        this.props.firebase.newPost(this.props.category, text, imgUrl)
+            .then(doc => {
                 this.setState({...INITIAL_STATE});
                 this.props.sub(this.props.category);
                 this.props.history.push(ROUTES.LANDING);
             })
-            .catch((error) => {
-                console.log(error);
-                this.setState({error})
-            });
-    };
+            .catch(err => console.log(err));
+    }
 
     onChange = (event) => {
         this.setState({[event.target.name]: event.target.value});
@@ -93,9 +127,9 @@ class NewPostFormBase extends Component {
 
 
     render() {
-        const {text, uploading, image} = this.state;
+        const { text, uploading, image, submitted } = this.state;
 
-        const isInvalid = text === '' || text.length > 250;
+        const isInvalid = text === '' || text.length > 250 || submitted;
 
         const imgUpload = () => {
             switch (true) {
@@ -114,6 +148,7 @@ class NewPostFormBase extends Component {
                 <form onSubmit={this.onSubmit} className="modal">
                     <h1>new post</h1>
                     {imgUpload()}
+                    {this.state.fileTooLarge && this.state.fileTooLarge}
                     <textarea
                         name="text"
                         value={text}
@@ -142,7 +177,7 @@ const Spinner = () => (
 const Image = (props) => (
     <div className="fadeIn imageContainer">
         <div onClick={() => props.removeImage()} className="deleteButton">X</div>
-        <img src={URL.createObjectURL(props.image)} alt='' style={{width: '50%', height: '50%', border: 'solid 1px red'}}/>
+        <img src={props.image} alt='' style={{maxWidth: '180px', height: '130px'}}/>
     </div>
 );
 
@@ -151,4 +186,6 @@ const NewPostForm = compose(
     withFirebase
 )(NewPostFormBase);
 
-export default NewPostPage;
+const condition = (authUser) => authUser != null;
+
+export default withAuthorization(condition)(NewPostPage);

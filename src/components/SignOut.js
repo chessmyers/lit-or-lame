@@ -3,15 +3,13 @@ import React from 'react';
 import { withFirebase } from "./Firebase";
 import { withRouter } from 'react-router-dom';
 import * as ROUTES from '../constants/routes';
+import '../styles/NewPostAndSigning.css';
 
 
-const buttonStyle = {
-    borderRadius: '20px',
-};
 
 const SignOutButton = (props) => {
     return (
-        <button type="button" style={buttonStyle} onClick={() => {
+        <button type="button" className="signOutButton" onClick={() => {
             props.history.push(ROUTES.LANDING);
             window.location.reload();
             props.firebase.doSignOut();

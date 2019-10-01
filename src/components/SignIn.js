@@ -53,9 +53,9 @@ class SignInFormBase extends Component {
 
 
     render() {
-        const { email, password } = this.state;
+        const { email, password, error } = this.state;
 
-        const isInvalid = (password === '') || email === '';
+        const isInvalid = password === '' || email === '' || password.length < 6;
 
         return (
             <div className="modalContainer">
@@ -77,6 +77,7 @@ class SignInFormBase extends Component {
                         type="password"
                         placeholder="Password"
                     />
+                    {error && <div className="errorMessage">{error.message}</div>}
                     <button disabled={isInvalid} type="submit" className="submitButton">
                         sign in
                     </button>

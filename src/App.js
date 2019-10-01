@@ -7,7 +7,6 @@ import LandingPage from './components/Landing';
 import SignUpPage from './components/SignUp';
 import SignInPage from './components/SignIn';
 import PasswordForgetPage from './components/PasswordForget';
-import HomePage from './components/Home';
 import AccountPage from './components/Account';
 import AdminPage from './components/Admin';
 import Footer from './components/Footer';
@@ -86,7 +85,6 @@ class App extends Component {
                         <Route exact path={ROUTES.SIGN_UP} component={SignUpPage}/>
                         <Route exact path={ROUTES.SIGN_IN} component={SignInPage}/>
                         <Route exact path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage}/>
-                        <Route exact path={ROUTES.HOME} component={HomePage}/>
                         <Route exact path={ROUTES.ACCOUNT} render={() => (
                             <AccountPage authUser={this.state.authUser} />
                         )}/>

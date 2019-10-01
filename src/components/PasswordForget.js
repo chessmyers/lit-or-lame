@@ -45,7 +45,7 @@ class PasswordForgetFormBase extends Component {
 
 
     render() {
-        const { email } = this.state;
+        const { email, error } = this.state;
 
         const isInvalid = (email === '');
 
@@ -61,6 +61,7 @@ class PasswordForgetFormBase extends Component {
                         type="text"
                         placeholder="Email Address"
                     />
+                    {error && <div className="errorMessage">{error.message}</div>}
                     <button disabled={isInvalid} type="submit" className="submitButton">
                         Reset My Password
                     </button>

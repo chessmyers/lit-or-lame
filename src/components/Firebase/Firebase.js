@@ -46,6 +46,8 @@ class Firebase {
 
     userID = () => this.auth.currentUser.uid;
 
+    getCurrentUsername = () => this.users().doc(this.userID()).get();
+
 
     // Posts API
 
@@ -57,13 +59,14 @@ class Firebase {
         .where("poster", "==", this.auth.currentUser.uid)
         .orderBy("time", "desc").get();
 
-    newPost = (category, textbody) => this.db.collection("posts").add({
-        text: textbody,
+    newPost = (category, textBody, fileUrl) => this.db.collection("posts").add({
+        text: textBody,
         time: app.firestore.FieldValue.serverTimestamp(),
         poster: this.auth.currentUser.uid,
         yes: 0,
         no: 0,
-        category: category
+        category: category,
+        image: fileUrl
     });
 
     likePost = (post, yesOrNo) => this.db.collection("posts").doc(post).update({
@@ -84,12 +87,19 @@ class Firebase {
             yes: 0
         });
 
+    getCommentPoster = (poster) => this.db.collection("users").doc(poster).get();
+
     // File Upload API
     uploadPostImg = (file) => {
-        let storageRef = this.storage.ref();
-        let newRef = storageRef.child(`postImgs/${file.name}`);
+        const storageRef = this.storage.ref();
+        const newRef = storageRef.child(`postImgs/${file.name}`);
         return newRef.put(file)
     };
+
+    getUploadURL = (file) => {
+        const imageRef = this.storage.ref().child(`postImgs/${file.name}`);
+        return imageRef.getDownloadURL();
+    }
 
     // OTHER STUFF
 

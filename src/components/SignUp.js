@@ -67,12 +67,14 @@ class SignUpFormBase extends Component {
             username,
             email,
             passwordOne,
-            passwordTwo
+            passwordTwo,
+            error
         } = this.state;
 
         const isInvalid =
             passwordOne !== passwordTwo ||
             passwordOne === '' ||
+            passwordOne.length < 6 ||
             email === '' ||
             username === '';
 
@@ -86,7 +88,7 @@ class SignUpFormBase extends Component {
                         value={username}
                         onChange={this.onChange}
                         type="text"
-                        placeholder="Full Name"
+                        placeholder="username"
                     />
                     <input
                         name="email"
@@ -94,7 +96,7 @@ class SignUpFormBase extends Component {
                         value={email}
                         onChange={this.onChange}
                         type="text"
-                        placeholder="Email Address"
+                        placeholder="email address"
                     />
                     <input
                         name="passwordOne"
@@ -102,7 +104,7 @@ class SignUpFormBase extends Component {
                         value={passwordOne}
                         onChange={this.onChange}
                         type="password"
-                        placeholder="Password"
+                        placeholder="password"
                     />
                     <input
                         name="passwordTwo"
@@ -110,8 +112,9 @@ class SignUpFormBase extends Component {
                         value={passwordTwo}
                         onChange={this.onChange}
                         type="password"
-                        placeholder="Confirm Password"
+                        placeholder="confirm Password"
                     />
+                    {error && <div className="errorMessage">{error.message}</div>}
                     <button disabled={isInvalid} type="submit" className="submitButton">
                         sign up
                     </button>

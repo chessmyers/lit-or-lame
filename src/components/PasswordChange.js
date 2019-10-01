@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-import { withFirebase } from "./Firebase";
+import {withFirebase} from "./Firebase";
+import '../styles/Account.css';
 
 const INITIAL_STATE = {
     passwordOne: '',
@@ -8,49 +9,52 @@ const INITIAL_STATE = {
     error: null
 };
 
-class PasswordChangeForm extends Component{
+class PasswordChangeForm extends Component {
     constructor(props) {
         super(props);
-        this.state = { ...INITIAL_STATE };
+        this.state = {...INITIAL_STATE};
 
         this.onChange = this.onChange.bind(this);
     }
 
     onSubmit = (event) => {
         event.preventDefault();
-        const { passwordOne } = this.state;
+        const {passwordOne} = this.state;
 
         this.props.firebase
             .doPasswordUpdate(passwordOne)
             .then(() => {
-                this.setState({ ...INITIAL_STATE });
+                this.setState({...INITIAL_STATE});
             })
             .catch((error) => {
-                this.setState({ error });
+                this.setState({error});
             });
     };
 
     onChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
+        this.setState({[event.target.name]: event.target.value});
     };
 
 
     render() {
-        const { passwordOne, passwordTwo, error } = this.state;
+        const {passwordOne, passwordTwo, error} = this.state;
 
         const isInvalid = (
             passwordOne !== passwordTwo ||
-            passwordOne === ''
+            passwordOne === '' ||
+            passwordOne.length < 6
         );
         return (
-            <form onSubmit={this.onSubmit}>
+            <form onSubmit={this.onSubmit} className="passwordChangeForm">
+                <h3>change your password</h3>
                 <input
                     name="passwordOne"
                     value={passwordOne}
                     onChange={this.onChange}
                     type="password"
                     placeholder="New Password"
-                    />
+                    className="passwordForgetBox"
+                />
 
                 <input
                     name="passwordTwo"
@@ -58,8 +62,9 @@ class PasswordChangeForm extends Component{
                     onChange={this.onChange}
                     type="password"
                     placeholder="Confirm New Password"
+                    className="passwordForgetBox"
                 />
-                <button disabled={isInvalid} type="submit">
+                <button disabled={isInvalid} type="submit" className="appButton">
                     Reset My Password
                 </button>
 
