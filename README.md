@@ -9,3 +9,9 @@ Programming by Christopher Myers --- https://github.com/chessmyers
 Designs by Etienne Lunetta --- https://github.com/etiennelunetta 
 
 www.litorlame.com 
+
+![Screenshot of App Post Feed](./public/Screenshot1.png)
+
+![Screenshot of Page for Adding a Post](./public/Screenshot2.png)
+
+![Screenshot of Profile Page](./public/Screenshot3.png)
